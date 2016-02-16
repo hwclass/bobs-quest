@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/hwclass/bobs-quest",
   "dependencies": {
-    "node-csv": "^0.1.2"
+    "csvtojson": "^0.5.2",
+    "node-csv": "^0.1.2",
+    "redis": "^2.4.2"
   }
 }
