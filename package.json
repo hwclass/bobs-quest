@@ -1,0 +1,25 @@
+{
+  "name": "bobs-quest",
+  "version": "1.0.0",
+  "description": "A practical thing to experiment transactional processes",
+  "main": "CsvNotifier.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hwclass/bobs-quest.git"
+  },
+  "keywords": [
+    "challenge"
+  ],
+  "author": "hwclass",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hwclass/bobs-quest/issues"
+  },
+  "homepage": "https://github.com/hwclass/bobs-quest",
+  "dependencies": {
+    "node-csv": "^0.1.2"
+  }
+}
