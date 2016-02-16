@@ -47,6 +47,6 @@ fs.watchFile(config.data.path + config.data.fileName, function (event, fileName)
 			console.log('connected');
 		});
 		setKey(redisClient, 'founders', JSON.stringify(jsonArr));
-		getValue(redisClient, 'founders');
+		redisClient.publish('event_founders_updated', JSON.stringify(jsonArr));
 	});
 });
