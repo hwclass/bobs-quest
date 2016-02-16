@@ -36,17 +36,20 @@ function getValue (redisClient, key) {
 	});
 }
 
+function publish (redisClient, eventName, data) {
+	redisClient.publish(eventName, data);
+}
+
 fs.watchFile(config.data.path + config.data.fileName, function (event, fileName) {
 	var converterIns = new CsvToJsonConverter({});
 	fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
 	converterIns.on('end_parsed', function (jsonArr) {
 		console.dir(jsonArr);
 		redisClient = connectRedis(config.redis.port, config.redis.host);
-		console.dir(redisClient);
 		redisClient.on('connect', function() {
 			console.log('connected');
 		});
 		setKey(redisClient, 'founders', JSON.stringify(jsonArr));
-		redisClient.publish('event_founders_updated', JSON.stringify(jsonArr));
+		publish(redisClient, 'event_founders_updated', JSON.stringify(jsonArr));
 	});
 });
