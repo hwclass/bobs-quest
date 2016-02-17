@@ -30,12 +30,6 @@ function setKey (redisClient, key, val) {
 	});
 }
 
-function getValue (redisClient, key) {
-	redisClient.get(key, function (err, reply) {
-		console.log('key : ' + reply);
-	});
-}
-
 function publish (redisClient, eventName, data) {
 	redisClient.publish(eventName, data);
 }
@@ -47,7 +41,7 @@ fs.watchFile(config.data.path + config.data.fileName, function (event, fileName)
 		console.dir(jsonArr);
 		redisClient = connectRedis(config.redis.port, config.redis.host);
 		redisClient.on('connect', function() {
-			console.log('connected');
+			console.log('CsvNotifier connected');
 		});
 		setKey(redisClient, 'founders', JSON.stringify(jsonArr));
 		publish(redisClient, 'event_founders_updated', JSON.stringify(jsonArr));

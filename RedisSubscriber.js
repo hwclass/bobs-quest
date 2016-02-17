@@ -1,4 +1,5 @@
 var redis = require('redis'),
+    events = require('events'),
     config = {
       redis : {
         port : 6379,
@@ -18,6 +19,9 @@ redisClient.on('connect', function() {
 
 redisClient.subscribe("event_founders_updated");
 
+var eventEmitter = new events.EventEmitter();
+
 redisClient.on("message", function(channel, message) {
-  console.log("Message '" + message + "' on channel '" + channel + "' arrived!")
+  console.log("Message '" + message + "' on channel '" + channel + "' arrived!");
+  eventEmitter.emit('event_founders_updated', message);
 });
