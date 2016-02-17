@@ -38,7 +38,6 @@ fs.watchFile(config.data.path + config.data.fileName, function (event, fileName)
 	var converterIns = new CsvToJsonConverter({});
 	fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
 	converterIns.on('end_parsed', function (jsonArr) {
-		console.dir(jsonArr);
 		redisClient = connectRedis(config.redis.port, config.redis.host);
 		redisClient.on('connect', function() {
 			console.log('CsvNotifier connected');

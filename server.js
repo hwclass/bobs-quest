@@ -1,7 +1,7 @@
 var express = require('express'),
     bodyParser = require('body-parser');
     redis = require('redis'),
-    EventEmitter = require('./EventEmitter'),
+    bolt = require('bolt'),
     app = express();
     _ = require('lodash'),
     config = {
@@ -28,17 +28,28 @@ app.get('/founders', function(req, res){
   });
 });
 
+app.use(function(err, req, res, next) {
+  if (err) {
+    console.log(err.message);
+    res.status(500).send(err);
+  }
+});
+
 function getValue (redisClient, key, callback) {
   redisClient.get(key, function (err, reply) {
     callback(JSON.parse(reply));
   });
 }
 
-var eventEmitter = new EventEmitter();
+var bolt = require('bolt');
 
-eventEmitter.on('event_founders_updated', function (data) {
+var mesh = new bolt.Node();
+
+mesh.start();
+
+mesh.on('event_founders_updated', function (data) {
   console.dir(data);
-})
+});
 
 app.listen(3000);
 

@@ -1,11 +1,17 @@
 var redis = require('redis'),
-    events = require('events'),
+    bolt = require('bolt'),
     config = {
       redis : {
         port : 6379,
         host : '127.0.0.1'
       }
     }
+
+var bolt = require('bolt');
+
+var mesh = new bolt.Node();
+
+mesh.start();
 
 function connectRedis (port, host) {
   return redis.createClient(port, host);
@@ -19,9 +25,7 @@ redisClient.on('connect', function() {
 
 redisClient.subscribe("event_founders_updated");
 
-var eventEmitter = new events.EventEmitter();
-
 redisClient.on("message", function(channel, message) {
   console.log("Message '" + message + "' on channel '" + channel + "' arrived!");
-  eventEmitter.emit('event_founders_updated', message);
+  mesh.emit('event_founders_updated', message);
 });
