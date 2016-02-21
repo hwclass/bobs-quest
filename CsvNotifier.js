@@ -37,6 +37,7 @@ function publish (redisClient, eventName, data) {
 fs.watchFile(config.data.path + config.data.fileName, function (event, fileName) {
 	var converterIns = new CsvToJsonConverter({});
 	fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
+	console.log('listening the csv file...');
 	converterIns.on('end_parsed', function (jsonArr) {
 		redisClient = connectRedis(config.redis.port, config.redis.host);
 		redisClient.on('connect', function() {

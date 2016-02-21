@@ -1,0 +1,38 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<div id="wrapper">
+			<ul id="foundersList"></ul>
+		</div>
+		<script>
+			var founders = null,
+					foundersList = document.getElementById('foundersList'),
+					source = new EventSource('/founders');
+			
+			source.addEventListener('message', function(e) {
+			  console.log((new Date()).toLocaleTimeString() + ' : message fetched.');
+			  founders = JSON.parse(e.data);
+			  injectFoundersIntoDom(founders);
+			}, false);
+
+			source.addEventListener('open', function(e) {
+			  console.log((new Date()).toLocaleTimeString() + ' : connection is now arrived.');
+			}, false);
+
+			source.addEventListener('error', function(e) {
+			  if (e.readyState == EventSource.CLOSED) {
+			    console.log((new Date()).toLocaleTimeString() + ' : connection is now closed.');
+			  }
+			}, false);
+
+			function injectFoundersIntoDom (founders) {
+				foundersList.innerHTML = '';
+				for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
+					foundersList.innerHTML += '<li>' + founders[foundersIndex]['Founder'] + ' ' + founders[foundersIndex]['City'] + founders[foundersIndex]['Country'] + ' ' + founders[foundersIndex]['Postal Code'] + ' ' + founders[foundersIndex]['City'] + ' ' + founders[foundersIndex]['Street'] + ' ' + founders[foundersIndex]['Home Page'] + ' ' + founders[foundersIndex]['Garage Latitude'] + ' ' + founders[foundersIndex]['Garage Longitude'] + '</li>';
+				}
+			}
+
+		</script>
+	</body>
+</html>

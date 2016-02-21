@@ -36,3 +36,5 @@ node RedisSubscriber.js
 ###Usage
 
 * Add a new row into our sample.csv file
+* Keep the changes in the client-side
+* Enjoy :)

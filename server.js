@@ -1,16 +1,17 @@
 var express = require('express'),
-    bodyParser = require('body-parser');
+    fs = require('fs'),
     redis = require('redis'),
     bolt = require('bolt'),
     app = express();
-    _ = require('lodash'),
     config = {
       redis : {
         port : 6379,
         host : '127.0.0.1'
       }
     },
-    founders = []; 
+    cachedFounders = null; 
+
+app.use('./client', express.static(__dirname + './client'));
 
 function connectRedis (port, host) {
   return redis.createClient(port, host);
@@ -22,9 +23,24 @@ redisClient.on('connect', function() {
   console.log('redis connected');
 });
 
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/client/index.html');
+});
+
 app.get('/founders', function(req, res){
+  console.log('1.5');
   getValue(redisClient, 'founders', function (founders) {
-    res.json(founders);
+    console.log('Express Server: Data has been sent to the client-side...');
+    cachedFounders = JSON.stringify(founders);
+    res.writeHead(200, {
+      'content-type': 'text/event-stream',
+      'cache-control': 'no-cache',
+      'connection': 'keep-alive'
+    });
+    console.dir(JSON.stringify(founders));
+    res.write('id: ' + (new Date()).toLocaleTimeString() + '\n');
+    res.write("data: " + JSON.stringify(founders) + '\n\n');
+    res.end();
   });
 });
 
@@ -48,7 +64,7 @@ var mesh = new bolt.Node();
 mesh.start();
 
 mesh.on('event_founders_updated', function (data) {
-  console.dir(data);
+  cachedFounders = data;
 });
 
 app.listen(3000);
