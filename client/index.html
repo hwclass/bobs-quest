@@ -5,6 +5,9 @@
         width: 500px;
         height: 400px;
       }
+      .geo-item {
+      	cursor : pointer;
+      }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.0/lodash.min.js"></script>
 	</head>
@@ -47,7 +50,7 @@
 			function injectFoundersIntoDom (founders, callback) {
 				foundersList.innerHTML = '';
 				for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
-					foundersList.innerHTML += '<li>' + founders[foundersIndex]['Founder'] + ' ' + founders[foundersIndex]['City'] + founders[foundersIndex]['Country'] + ' ' + founders[foundersIndex]['Postal Code'] + ' ' + founders[foundersIndex]['City'] + ' ' + founders[foundersIndex]['Street'] + ' ' + founders[foundersIndex]['Home Page'] + ' ' + founders[foundersIndex]['Garage Latitude'] + ' ' + founders[foundersIndex]['Garage Longitude'] + '</li>';
+					foundersList.innerHTML += '<li class="geo-item" data-lat="'+founders[foundersIndex]['Garage Latitude']+'" data-long="'+founders[foundersIndex]['Garage Longitude']+'">' + founders[foundersIndex]['Founder'] + ' ' + founders[foundersIndex]['City'] + founders[foundersIndex]['Country'] + ' ' + founders[foundersIndex]['Postal Code'] + ' ' + founders[foundersIndex]['City'] + ' ' + founders[foundersIndex]['Street'] + ' ' + founders[foundersIndex]['Home Page'] + ' ' + founders[foundersIndex]['Garage Latitude'] + ' ' + founders[foundersIndex]['Garage Longitude'] + '</li>';
 				}
 				callback(founders);
 			}
@@ -60,13 +63,16 @@
 		    });
 			}
 
-			function updateMap (founders) {
+			function updateMap (founders, selectedLat, selectedLong) {
 				var mapDiv = document.getElementById('map');
 		    var map = new google.maps.Map(mapDiv, {
-		      center: {lat: founders[0]['Garage Latitude'], lng: founders[0]['Garage Longitude']},
+		      center: {lat: (!_.isUndefined(selectedLat)?parseFloat(selectedLat).toFixed(6):founders[0]['Garage Latitude']), lng: (!_.isUndefined(selectedLong)?parseFloat(selectedLong).toFixed(6):founders[0]['Garage Longitude'])
+		    	},
 		      zoom: 8
 		    });
-		    createMarkers(map, google, founders);
+		    if (_.isUndefined(selectedLat) && _.isUndefined(selectedLong)) {
+		    	createMarkers(map, google, founders);
+		    }
 			}
 
 			function createMarkers (map, google, founders) {
@@ -77,6 +83,41 @@
 		        title: 'Hello World!'
 		      });
 				}
+			}
+
+			window.setMapIframeAddress = function(e, n) {
+			        var i, s, a, t;
+			        return t = new google.maps.LatLng(e,n),
+			        s = {
+			            zoom: 15,
+			            center: t
+			        },
+			        i = new google.maps.Map(document.getElementById("map-canvas"),s),
+			        a = new google.maps.Marker({
+			            position: t,
+			            map: i,
+			            title: "Hello World!"
+			        }),
+			        !1
+			    }
+
+			function locateOnMarker (lat, long) {
+				updateMap(founders, lat, long);
+			}
+
+			function bindEvents () {
+				var founderListItems = document.getElementsByClassName('geo-item');
+				for (var founderListItemsIndex = 0, len = founderListItems.length; founderListItemsIndex < len; founderListItemsIndex++) {
+					founderListItems[founderListItemsIndex].addEventListener('click', function (evt) {
+						var lat = evt.target.attributes['data-lat'].nodeValue,
+								long = evt.target.attributes['data-long'].nodeValue;
+						locateOnMarker(lat, long);	
+					}, false);
+				}
+			}
+
+			window.onload = function () {
+				bindEvents();
 			}
 
 		</script>
