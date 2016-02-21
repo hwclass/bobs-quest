@@ -1,8 +1,16 @@
 <html>
 	<head>
+		<style>
+      #map {
+        width: 500px;
+        height: 400px;
+      }
+    </style>
 	</head>
 	<body>
 		<div id="wrapper">
+			<div id="map"></div>
+			<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
 			<ul id="foundersList"></ul>
 		</div>
 		<script>
@@ -13,7 +21,9 @@
 			source.addEventListener('message', function(e) {
 			  console.log((new Date()).toLocaleTimeString() + ' : message fetched.');
 			  founders = JSON.parse(e.data);
-			  injectFoundersIntoDom(founders);
+			  injectFoundersIntoDom(founders, function (founders) {
+			  	updateMap(founders);
+			  });
 			}, false);
 
 			source.addEventListener('open', function(e) {
@@ -26,10 +36,39 @@
 			  }
 			}, false);
 
-			function injectFoundersIntoDom (founders) {
+			function injectFoundersIntoDom (founders, callback) {
 				foundersList.innerHTML = '';
 				for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
 					foundersList.innerHTML += '<li>' + founders[foundersIndex]['Founder'] + ' ' + founders[foundersIndex]['City'] + founders[foundersIndex]['Country'] + ' ' + founders[foundersIndex]['Postal Code'] + ' ' + founders[foundersIndex]['City'] + ' ' + founders[foundersIndex]['Street'] + ' ' + founders[foundersIndex]['Home Page'] + ' ' + founders[foundersIndex]['Garage Latitude'] + ' ' + founders[foundersIndex]['Garage Longitude'] + '</li>';
+						//initMap(founders[foundersIndex]['Garage Latitude'], founders[foundersIndex]['Garage Longitude']);
+				}
+				callback(founders);
+			}
+
+			function initMap (latitude, longitude) {
+				var mapDiv = document.getElementById('map');
+		    var map = new google.maps.Map(mapDiv, {
+		      center: {lat: 44.540, lng: -78.546},
+		      zoom: 8
+		    });
+			}
+
+			function updateMap (founders) {
+				var mapDiv = document.getElementById('map');
+		    var map = new google.maps.Map(mapDiv, {
+		      center: {lat: founders[0]['Garage Latitude'], lng: founders[0]['Garage Longitude']},
+		      zoom: 8
+		    });
+		    createMarkers(map, google, founders);
+			}
+
+			function createMarkers (map, google, founders) {
+				for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
+					var marker = new google.maps.Marker({
+		        position: {lat: founders[foundersIndex]['Garage Latitude'], lng: founders[foundersIndex]['Garage Longitude']},
+		        map: map,
+		        title: 'Hello World!'
+		      });
 				}
 			}
 
