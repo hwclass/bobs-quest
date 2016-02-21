@@ -6,24 +6,32 @@
         height: 400px;
       }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.0/lodash.min.js"></script>
 	</head>
 	<body>
 		<div id="wrapper">
 			<div id="map"></div>
-			<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+			<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" defer></script>
 			<ul id="foundersList"></ul>
 		</div>
 		<script>
 			var founders = null,
+					cachedFounders =[] ,
 					foundersList = document.getElementById('foundersList'),
 					source = new EventSource('/founders');
 			
 			source.addEventListener('message', function(e) {
 			  console.log((new Date()).toLocaleTimeString() + ' : message fetched.');
 			  founders = JSON.parse(e.data);
-			  injectFoundersIntoDom(founders, function (founders) {
-			  	updateMap(founders);
-			  });
+			  var state = document.readyState;
+	      if(state === 'interactive' || state === 'complete') {
+          if (!_.isEqual(cachedFounders.sort(), founders.sort())) {
+          	cachedFounders = founders;
+          	injectFoundersIntoDom(founders, function (founders) {
+          		updateMap(founders);
+          	});
+          }
+	      } else { setTimeout(arguments.callee, 200); }
 			}, false);
 
 			source.addEventListener('open', function(e) {
@@ -40,7 +48,6 @@
 				foundersList.innerHTML = '';
 				for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
 					foundersList.innerHTML += '<li>' + founders[foundersIndex]['Founder'] + ' ' + founders[foundersIndex]['City'] + founders[foundersIndex]['Country'] + ' ' + founders[foundersIndex]['Postal Code'] + ' ' + founders[foundersIndex]['City'] + ' ' + founders[foundersIndex]['Street'] + ' ' + founders[foundersIndex]['Home Page'] + ' ' + founders[foundersIndex]['Garage Latitude'] + ' ' + founders[foundersIndex]['Garage Longitude'] + '</li>';
-						//initMap(founders[foundersIndex]['Garage Latitude'], founders[foundersIndex]['Garage Longitude']);
 				}
 				callback(founders);
 			}
