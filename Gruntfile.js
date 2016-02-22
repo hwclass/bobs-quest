@@ -1,5 +1,8 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+  
   require('jit-grunt')(grunt);
+
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.initConfig({
     less: {
@@ -22,8 +25,22 @@ module.exports = function(grunt) {
           nospawn: true
         }
       }
+    },
+    karma : {
+      all: {
+        configFile: 'karma.conf.js',
+        browsers: ['PhantomJS'],
+        singleRun: true,
+        options: {
+          files: [
+            'client/js/**/*.js', // js source files
+            'spec/client/js/*.spec.js' // unit test files
+          ]
+        }
+      }
     }
   });
 
   grunt.registerTask('default', ['less', 'watch']);
+
 };

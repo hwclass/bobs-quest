@@ -1,4 +1,6 @@
-var express = require('express'),
+/*Server File : server.js*/
+
+const express = require('express'),
     fs = require('fs'),
     redis = require('redis'),
     bolt = require('bolt'),
@@ -13,23 +15,23 @@ var express = require('express'),
 
 app.use('/client', express.static(__dirname + '/client'));
 
-function connectRedis (port, host) {
+const connectRedis = function (port, host) {
   return redis.createClient(port, host);
 }
 
 redisClient = connectRedis(config.redis.port, config.redis.host);
 
-redisClient.on('connect', function() {
+redisClient.on('connect', () => {
   console.log('redis connected');
 });
 
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client/index.html');
 });
 
-app.get('/founders', function(req, res){
+app.get('/founders', (req, res) => {
   console.log('1.5');
-  getValue(redisClient, 'founders', function (founders) {
+  getValue(redisClient, 'founders', (founders) => {
     console.log('Express Server: Data has been sent to the client-side...');
     cachedFounders = JSON.stringify(founders);
     res.writeHead(200, {
@@ -44,26 +46,24 @@ app.get('/founders', function(req, res){
   });
 });
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   if (err) {
     console.log(err.message);
     res.status(500).send(err);
   }
 });
 
-function getValue (redisClient, key, callback) {
-  redisClient.get(key, function (err, reply) {
+const getValue = function (redisClient, key, callback) {
+  redisClient.get(key, (err, reply) => {
     callback(JSON.parse(reply));
   });
 }
 
-var bolt = require('bolt');
-
-var mesh = new bolt.Node();
+const mesh = new bolt.Node();
 
 mesh.start();
 
-mesh.on('event_founders_updated', function (data) {
+mesh.on('event_founders_updated', (data) => {
   cachedFounders = data;
 });
 

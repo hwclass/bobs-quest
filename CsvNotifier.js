@@ -1,4 +1,4 @@
-var fs = require("fs"),
+const fs = require("fs"),
 		CsvToJsonConverter = require('csvtojson').Converter,
 		lines = 0,
 		latestCsvData = [],
@@ -15,12 +15,12 @@ var fs = require("fs"),
 
 var redis = require('redis'); 
 
-function connectRedis (port, host) {
+const connectRedis = function (port, host) {
 	return redis.createClient(port, host);
 }
 
-function setKey (redisClient, key, val) {
-	redisClient.set(key, val, function(err, reply) {
+const setKey = function (redisClient, key, val) {
+	redisClient.set(key, val, (err, reply) => {
 	  if (err) {
 	  	console.dir(err);
 	  } else {
@@ -29,14 +29,14 @@ function setKey (redisClient, key, val) {
 	});
 }
 
-function publish (redisClient, eventName, data) {
+const publish = function (redisClient, eventName, data) {
 	redisClient.publish(eventName, data);
 }
 
-fs.watchFile(config.data.path + config.data.fileName, function (event, fileName) {
+fs.watchFile(config.data.path + config.data.fileName, (event, fileName) => {
 	var converterIns = new CsvToJsonConverter({});
 	fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
-	converterIns.on('end_parsed', function (jsonArr) {
+	converterIns.on('end_parsed', (jsonArr) => {
 		console.log('Detected a csv change...');
 		redisClient = connectRedis(config.redis.port, config.redis.host);
 		redisClient.on('connect', function() {
@@ -46,3 +46,5 @@ fs.watchFile(config.data.path + config.data.fileName, function (event, fileName)
 		publish(redisClient, 'event_founders_updated', JSON.stringify(jsonArr));
 	});
 });
+
+console.log('Watching the changes in ' + config.data.fileName);

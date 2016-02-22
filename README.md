@@ -1,6 +1,15 @@
 # bobs-quest
 A practical thing to experiment transactional processes 
 
+###Technical Spec
+* Node.js
+* Express
+* Redis
+* Bolt
+* Grunt
+* Less
+* Karma
+
 ###Setup
 
 ####Install 

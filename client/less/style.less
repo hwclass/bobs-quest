@@ -1,8 +1,19 @@
 /*style.less*/
 
+/*variables*/
+@header-font: Georgia;
+
+/*functions*/
+.reset(@margin, @padding) {   
+  margin: @margin;
+  padding: @padding;
+}
+
+/*mixins*/
+@header-font: Georgia;
+
 body {
-  margin: 0;
-  padding: 0;
+  .reset(@margin:0, @padding:0);
   .navbar {
     min-height: 50px;
     margin-bottom: 20px;

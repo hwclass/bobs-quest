@@ -1,7 +1,4 @@
-/*
-var EventEmitter = require('events').EventEmitter;
-exports.eventEmitter = new EventEmitter();
-*/
+/*Main Event Manager File : EventEmitter.js*/
 
 var events = require('events');
 

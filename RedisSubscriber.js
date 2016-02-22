@@ -1,4 +1,6 @@
-var redis = require('redis'),
+/*RedisSubscriber */
+
+const redis = require('redis'),
     bolt = require('bolt'),
     config = {
       redis : {
@@ -7,25 +9,23 @@ var redis = require('redis'),
       }
     }
 
-var bolt = require('bolt');
-
-var mesh = new bolt.Node();
+const mesh = new bolt.Node();
 
 mesh.start();
 
-function connectRedis (port, host) {
+const connectRedis = function (port, host) {
   return redis.createClient(port, host);
 }
 
 redisClient = connectRedis(config.redis.port, config.redis.host);
 
-redisClient.on('connect', function() {
+redisClient.on('connect', () => {
   console.log('RedisSubscriber connected');
 });
 
 redisClient.subscribe("event_founders_updated");
 
-redisClient.on("message", function(channel, message) {
+redisClient.on("message", (channel, message) => {
   console.log("Message '" + message + "' on channel '" + channel + "' arrived!");
   mesh.emit('event_founders_updated', message);
 });
