@@ -1,21 +1,10 @@
+/**
+* @author hwclass
+* @filename app.js
+*/
 
-/*Create an app instance*/
+/*
+ *Setting the context to another variable to seperate the Page instance context and Booklet context
+ *@type {Booklet}
+ */
 var app = new Booklet('app');
-
-/*Generate a view instance*/
-var bobsQuest = app.createView('bobsQuest');
-
-/*Register a module for the view*/
-bobsQuest.register('foundersListWithMap', function (bobsQuest) {
-  return {
-    init : function () {
-      console.log('bobsQuest:init invoked.');
-      this.bindEvents();
-    },
-    bindEvents : function () {
-      console.log('bindEvents invoked.');
-    }
-  }
-});
-
-bobsQuest.start('foundersListWithMap');

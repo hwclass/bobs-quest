@@ -1,3 +1,5 @@
+/*OK*/
+/* 
 var founders = null,
 		cachedMap = null,
 		mapLoaded = false,
@@ -5,7 +7,10 @@ var founders = null,
 		foundersList = document.getElementById('foundersList'),
 		source = new EventSource('/founders'),
 		latestUpdateTime = null;
+*/
 
+/*OK*/
+/*
 source.addEventListener('message', function(e) {
   console.log((new Date()).toLocaleTimeString() + ' : message fetched.');
   founders = JSON.parse(e.data);
@@ -32,11 +37,17 @@ source.addEventListener('error', function(e) {
     console.log((new Date()).toLocaleTimeString() + ' : connection is now closed.');
   }
 }, false);
+*/
 
+/*OK*/
+/*
 function getDocumentState () {
 	return document.readyState;
 }
+*/
 
+/*OK*/
+/*
 function injectFoundersIntoDom (founders, callback) {
 	foundersList.innerHTML = '';
 	for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
@@ -44,13 +55,18 @@ function injectFoundersIntoDom (founders, callback) {
 	}
 	callback(founders);
 }
+*/
 
+/*OK*/
+/*
 function setLatestUpdate (updateTime) {
 	var latestUpdateTimeText = document.getElementById('latestUpdateTimeText');
 	latestUpdateTime = updateTime;
 	latestUpdateTimeText.innerHTML = updateTime;
 }
+*/
 
+/*
 function initMap (latitude, longitude) {
 	var mapDiv = document.getElementById('map');
 	setMapLoadingStatus(true);
@@ -59,30 +75,47 @@ function initMap (latitude, longitude) {
     zoom: 8
   });
 }
+*/
 
+/*OK*/
+
+/*
 function setMapLoadingStatus (state) {
 	mapLoaded = state;
 }
+*/
 
+/*OK*/
+/*
 function getMapLoadingStatus () {
 	return !!mapLoaded;
 }
+*/
 
+/*OK*/
+/*
 function updateMap (founders, selectedLat, selectedLong) {
 	var mapDiv = document.getElementById('map');
 	if (_.isUndefined(selectedLat) && _.isUndefined(selectedLong)) {
 	  createMarkers(cachedMap, google, founders);
 	  cachedMap.setCenter({lat: (!_.isUndefined(selectedLat)?parseFloat(selectedLat):founders[0]['Garage Latitude']), lng: (!_.isUndefined(selectedLong)?parseFloat(selectedLong):founders[0]['Garage Longitude'])});
+    cachedMap.setZoom(8);
 	} else {
-		console.log('cached map to center');
 		cachedMap.setCenter({lat: parseFloat(selectedLat), lng: parseFloat(selectedLong)});
+    cachedMap.setZoom(8);
 	}
 }
+*/
 
+/*OK*/
+/*
 function getStringAsFloat (val) {
 	return parseFloat(val);
 }
+*/
 
+/*OK*/
+/*
 function createMarkers (map, google, founders) {
 	for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
 		var marker = new google.maps.Marker({
@@ -92,11 +125,17 @@ function createMarkers (map, google, founders) {
 	}
 	bindEvents();
 }
+*/
 
+/*OK*/
+/*
 function locateOnMarker (lat, long) {
 	updateMap(cachedFounders, lat, long);
 }
+*/
 
+/**************OK**************/
+/*
 function bindEvents () {
 	var founderListItems = document.getElementsByClassName('geo-item'),
 			showAllButton = document.getElementById('showAll');
@@ -116,3 +155,4 @@ window.onload = function () {
 	bindEvents();
 	updateMap(cachedFounders);
 }
+*/

@@ -1,13 +1,19 @@
-/*RedisSubscriber */
+/**
+* @author hwclass
+* @filename RedisSubscriber.js
+*/
 
-const redis = require('redis'),
-    bolt = require('bolt'),
-    config = {
-      redis : {
-        port : 6379,
-        host : '127.0.0.1'
-      }
-    }
+require('./messages.js').default;
+
+const messages = require('./messages'),
+      redis = require('redis'),
+      bolt = require('bolt'),
+      config = {
+        redis : {
+          port : 6379,
+          host : '127.0.0.1'
+        }
+      };
 
 const mesh = new bolt.Node();
 
@@ -20,7 +26,7 @@ const connectRedis = function (port, host) {
 redisClient = connectRedis(config.redis.port, config.redis.host);
 
 redisClient.on('connect', () => {
-  console.log('RedisSubscriber connected');
+  console.log(messages.REDIS_SUBSCRIBER_CONNECTED);
 });
 
 redisClient.subscribe("event_founders_updated");

@@ -1,17 +1,21 @@
-/*Server File : server.js*/
+/**
+* @author hwclass
+* @filename server.js
+*/
 
-const express = require('express'),
-    fs = require('fs'),
-    redis = require('redis'),
-    bolt = require('bolt'),
-    app = express();
-    config = {
-      redis : {
-        port : 6379,
-        host : '127.0.0.1'
-      }
-    },
-    cachedFounders = null; 
+const messages = require('./messages'), 
+      express = require('express'),
+      fs = require('fs'),
+      redis = require('redis'),
+      bolt = require('bolt'),
+      app = express();
+      config = {
+        redis : {
+          port : 6379,
+          host : '127.0.0.1'
+        }
+      },
+      cachedFounders = null; 
 
 app.use('/client', express.static(__dirname + '/client'));
 
@@ -22,7 +26,7 @@ const connectRedis = function (port, host) {
 redisClient = connectRedis(config.redis.port, config.redis.host);
 
 redisClient.on('connect', () => {
-  console.log('redis connected');
+  console.log(messages.REDIS_CONNECTED);
 });
 
 app.get('/', (req, res) => {
@@ -32,7 +36,7 @@ app.get('/', (req, res) => {
 app.get('/founders', (req, res) => {
   console.log('1.5');
   getValue(redisClient, 'founders', (founders) => {
-    console.log('Express Server: Data has been sent to the client-side...');
+    console.log(messages.DATA_SENT_TO_THE_CLIENT_SIDE);
     cachedFounders = JSON.stringify(founders);
     res.writeHead(200, {
       'content-type': 'text/event-stream',
@@ -69,4 +73,4 @@ mesh.on('event_founders_updated', (data) => {
 
 app.listen(3000);
 
-console.log('Server running on 3000...');
+console.log(messages.SERVER_STARTED);

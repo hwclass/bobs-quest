@@ -4,7 +4,10 @@
   "description": "A practical thing to experiment transactional processes",
   "main": "CsvNotifier.js",
   "scripts": {
-    "start-redis-subscriber": "node ./RedisSubscriber.js"
+    "start-redis-server": "redis-server /usr/local/etc/redis.conf",
+    "start-csv-notifier": "node ./CsvNotifier.js",
+    "start-redis-subscriber": "node ./RedisSubscriber.js",
+    "start-server": "node ./server.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
     "redis": "^2.4.2"
   },
   "devDependencies": {
+    "babel-plugin-add-module-exports": "^0.1.2",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-less": "^1.2.0",
@@ -38,6 +42,7 @@
     "jit-grunt": "^0.9.1",
     "karma": "^0.13.21",
     "karma-chrome-launcher": "^0.2.2",
-    "karma-jasmine": "^0.3.7"
+    "karma-jasmine": "^0.3.7",
+    "superstatic": "^4.0.1"
   }
 }
