@@ -6,7 +6,7 @@ var app = new Booklet('app');
 var bobsQuest = app.createView('bobsQuest');
 
 /*Register a module for the view*/
-bobsQuest.register('foundersList', function (bobsQuest) {
+bobsQuest.register('foundersListWithMap', function (bobsQuest) {
   return {
     init : function () {
       console.log('bobsQuest:init invoked.');
@@ -17,3 +17,5 @@ bobsQuest.register('foundersList', function (bobsQuest) {
     }
   }
 });
+
+bobsQuest.start('foundersListWithMap');

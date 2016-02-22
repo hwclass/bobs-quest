@@ -11,7 +11,7 @@ var express = require('express'),
     },
     cachedFounders = null; 
 
-app.use('./client', express.static(__dirname + './client'));
+app.use('/client', express.static(__dirname + '/client'));
 
 function connectRedis (port, host) {
   return redis.createClient(port, host);

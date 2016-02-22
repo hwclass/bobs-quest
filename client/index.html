@@ -1,38 +1,94 @@
 <html>
 	<head>
-		<style>
-      #map {
-        width: 500px;
-        height: 400px;
-      }
-      .geo-item {
-      	cursor : pointer;
-      }
-    </style>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="client/css/style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&v=3.exp&callback=initMap" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.0/lodash.min.js"></script>
     <script src="https://cdn.rawgit.com/hwclass/booklet/master/dist/booklet-1.2.1.min.js" defer></script>
 	</head>
 	<body>
-		<div id="wrapper">
-			<div id="map"></div>
-			<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" defer></script>
-			<ul id="foundersList"></ul>
+		<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Bob's Quest</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+		<div class="container app">
+			<div class="row">
+		 		<div class="col-xs-12">
+		 			<div id="map"></div>
+		 		</div>
+			</div>
+		  <div class="row">
+		    <div class="col-xs-12">
+		      <div class="table-responsive">
+		        <table class="table table-bordered table-hover">
+		          <caption class="text-center">Founders List</caption>
+		          <thead>
+		            <tr>
+		              <th>Id</th>
+		              <th>Company Name</th>
+		              <th>Founder</th>
+		              <th>City</th>
+		              <th>Country</th>
+		              <th>Postal Code</th>
+		              <th>Photo</th>
+		              <th>Home Page</th>
+		              <th>Garage Latitude</th>
+		              <th>Garage Longitude</th>
+		            </tr>
+		          </thead>
+		          <tbody id="foundersList">
+		          </tbody>
+		          <tfoot>
+		          	<tr>
+		          		<td colspan="10">
+		          			<button id="showAll">Show All</button>
+		          		</td>
+		          	</tr>
+		            <tr>
+		              <td colspan="10" class="text-center">Latest Update : <span id="latestUpdateTimeText"></span></td>
+		            </tr>
+		          </tfoot>
+		        </table>
+		      </div>
+		    </div>
+		  </div>
 		</div>
 		<script>
 			var founders = null,
+					cachedMap = null,
+					mapLoaded = false,
 					cachedFounders =[] ,
 					foundersList = document.getElementById('foundersList'),
-					source = new EventSource('/founders');
-			
+					source = new EventSource('/founders'),
+					latestUpdateTime = null;
+
 			source.addEventListener('message', function(e) {
 			  console.log((new Date()).toLocaleTimeString() + ' : message fetched.');
 			  founders = JSON.parse(e.data);
-			  var state = document.readyState;
-	      if(state === 'interactive' || state === 'complete') {
+			  var documentState = getDocumentState();
+	      if(documentState === 'interactive' || documentState === 'complete') {
           if (!_.isEqual(cachedFounders.sort(), founders.sort())) {
           	cachedFounders = founders;
           	injectFoundersIntoDom(founders, function (founders) {
-          		updateMap(founders);
+          		if (getMapLoadingStatus()) {
+          			updateMap(founders);
+          			setLatestUpdate((new Date()).toLocaleTimeString());
+          		}
           	});
           }
 	      } else { setTimeout(arguments.callee, 200); }
@@ -48,37 +104,54 @@
 			  }
 			}, false);
 
+			function getDocumentState () {
+				return document.readyState;
+			}
+
 			function injectFoundersIntoDom (founders, callback) {
 				foundersList.innerHTML = '';
 				for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
-					foundersList.innerHTML += '<li class="geo-item" data-lat="'+founders[foundersIndex]['Garage Latitude']+'" data-long="'+founders[foundersIndex]['Garage Longitude']+'">' + founders[foundersIndex]['Founder'] + ' ' + founders[foundersIndex]['City'] + founders[foundersIndex]['Country'] + ' ' + founders[foundersIndex]['Postal Code'] + ' ' + founders[foundersIndex]['City'] + ' ' + founders[foundersIndex]['Street'] + ' ' + founders[foundersIndex]['Home Page'] + ' ' + founders[foundersIndex]['Garage Latitude'] + ' ' + founders[foundersIndex]['Garage Longitude'] + '</li>';
+					foundersList.innerHTML += '<tr class="geo-item" data-lat="'+founders[foundersIndex]['Garage Latitude']+'" data-long="'+founders[foundersIndex]['Garage Longitude']+'"><td><img src="'+ founders[foundersIndex]['Photo'] +'"></td><td>' + founders[foundersIndex]['Founder'] + '</td><td>' + founders[foundersIndex]['City'] + '</td><td>' + founders[foundersIndex]['Country'] + '</td><td>' + founders[foundersIndex]['Postal Code'] + '</td><td>' + founders[foundersIndex]['City'] + '</td><td>' + founders[foundersIndex]['Street'] + '</td><td>' + founders[foundersIndex]['Home Page'] + '</td><td>' + founders[foundersIndex]['Garage Latitude'] + '</td><td>' + founders[foundersIndex]['Garage Longitude'] + '</td></tr>';
 				}
 				callback(founders);
 			}
 
+			function setLatestUpdate (updateTime) {
+				var latestUpdateTimeText = document.getElementById('latestUpdateTimeText');
+				latestUpdateTime = updateTime;
+				latestUpdateTimeText.innerHTML = updateTime;
+			}
+
 			function initMap (latitude, longitude) {
 				var mapDiv = document.getElementById('map');
-		    var map = new google.maps.Map(mapDiv, {
+				setMapLoadingStatus(true);
+		    var map = cachedMap = new google.maps.Map(mapDiv, {
 		      center: {lat: 44.540, lng: -78.546},
 		      zoom: 8
 		    });
 			}
 
+			function setMapLoadingStatus (state) {
+				mapLoaded = state;
+			}
+
+			function getMapLoadingStatus () {
+				return !!mapLoaded;
+			}
+
 			function updateMap (founders, selectedLat, selectedLong) {
 				var mapDiv = document.getElementById('map');
-		    var map = new google.maps.Map(mapDiv, {
-		      center: {lat: (!_.isUndefined(selectedLat)?parseFloat(selectedLat):founders[0]['Garage Latitude']), lng: (!_.isUndefined(selectedLong)?parseFloat(selectedLong):founders[0]['Garage Longitude'])
-		    	},
-		      zoom: 8
-		    });
-		    if (_.isUndefined(selectedLat) && _.isUndefined(selectedLong)) {
-		    	createMarkers(map, google, founders);
-		    } else {
-  				var marker = new google.maps.Marker({
-  	        position: {lat: parseFloat(selectedLat), lng: parseFloat(selectedLong)},
-  	        map: map
-  	      });
-		    }
+				if (_.isUndefined(selectedLat) && _.isUndefined(selectedLong)) {
+				  createMarkers(cachedMap, google, founders);
+				  cachedMap.setCenter({lat: (!_.isUndefined(selectedLat)?parseFloat(selectedLat):founders[0]['Garage Latitude']), lng: (!_.isUndefined(selectedLong)?parseFloat(selectedLong):founders[0]['Garage Longitude'])});
+				} else {
+					console.log('cached map to center');
+					cachedMap.setCenter({lat: parseFloat(selectedLat), lng: parseFloat(selectedLong)});
+				}
+			}
+
+			function getStringAsFloat (val) {
+				return parseFloat(val);
 			}
 
 			function createMarkers (map, google, founders) {
@@ -88,27 +161,34 @@
 		        map: map
 		      });
 				}
+				bindEvents();
 			}
 
 			function locateOnMarker (lat, long) {
-				updateMap(founders, lat, long);
+				updateMap(cachedFounders, lat, long);
 			}
 
 			function bindEvents () {
-				var founderListItems = document.getElementsByClassName('geo-item');
+				var founderListItems = document.getElementsByClassName('geo-item'),
+						showAllButton = document.getElementById('showAll');
 				for (var founderListItemsIndex = 0, len = founderListItems.length; founderListItemsIndex < len; founderListItemsIndex++) {
 					founderListItems[founderListItemsIndex].addEventListener('click', function (evt) {
-						var lat = evt.target.attributes['data-lat'].nodeValue,
-								long = evt.target.attributes['data-long'].nodeValue;
-						locateOnMarker(lat, long);	
+						var lat = evt.target.parentElement.attributes['data-lat'].nodeValue,
+							long = evt.target.parentElement.attributes['data-long'].nodeValue;
+						locateOnMarker(lat, long);
 					}, false);
 				}
+				showAllButton.addEventListener('click', function () {
+					cachedMap.setZoom(1);
+				});
 			}
 
 			window.onload = function () {
 				bindEvents();
+				updateMap(cachedFounders);
 			}
 
 		</script>
+		<script src="client/js/app.js" defer></script>
 	</body>
 </html>

@@ -24,5 +24,12 @@
     "redis": "^2.4.2",
     "bolt": "^0.3.3",
     "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "jit-grunt": "^0.9.1"
   }
 }

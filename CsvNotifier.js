@@ -20,12 +20,11 @@ function connectRedis (port, host) {
 }
 
 function setKey (redisClient, key, val) {
-	console.log('setKey');
 	redisClient.set(key, val, function(err, reply) {
-	  if (!err) {
-	  	console.log('key, ' + key + ' saved');
-	  } else {
+	  if (err) {
 	  	console.dir(err);
+	  } else {
+	  	console.log('Key: ' + key + ' saved');
 	  }
 	});
 }
@@ -37,8 +36,8 @@ function publish (redisClient, eventName, data) {
 fs.watchFile(config.data.path + config.data.fileName, function (event, fileName) {
 	var converterIns = new CsvToJsonConverter({});
 	fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
-	console.log('listening the csv file...');
 	converterIns.on('end_parsed', function (jsonArr) {
+		console.log('Detected a csv change...');
 		redisClient = connectRedis(config.redis.port, config.redis.host);
 		redisClient.on('connect', function() {
 			console.log('CsvNotifier connected');
