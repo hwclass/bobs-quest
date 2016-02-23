@@ -77,6 +77,5 @@ http://localhost:3000/
 * Celery for jobs with asynchronism
 * React / Flux / Redux integration for more decoupled code base and management
 
-[twitter](www.twitter.com/hwclass)
-[blog](www.hwclass.in)
+[twitter](https://www.twitter.com/hwclass) / [blog](https://www.hwclass.in)
 
