@@ -6,28 +6,40 @@
 // Register a module into the view instance
 bobsQuest.register('foundersListWithMap', function (bobsQuest) {
   return {
+    
+    /**
+     * init() is an initializer method for the module
+     *
+     * @noparam
+    */
     init : function () {
       console.log('bobsQuest:init invoked.');
       this.bindEvents();
     },
-    bindEvents : function () {
 
+    /**
+     * bindEvents() is a method that binds the events with the current methods
+     *
+     * @noparam
+    */
+    bindEvents : function () {
       //config defaults
       var source = bobsQuest.defaults.source;
-
       //Elements cache
       var foundersListItems = document.getElementsByClassName('geo-item'),
           showAllButton = document.getElementById('showAll');
-
       this.messageOnServerSideEvents(source);
-
       //foundersListItems event decleration for click
       this.clickOnFoundersListItem(foundersListItems);
-
       //showAllButton event decleration for click
       this.clickOnShowAllButton(showAllButton);
-
     },
+
+    /**
+     * clickOnFoundersListItem() is event method for foundersListItem as geo-item
+     *
+     * @param {array} founderListItems
+    */
     clickOnFoundersListItem : function (founderListItems) {
     	var self = this;
       for (var founderListItemsIndex = 0, len = founderListItems.length; founderListItemsIndex < len; founderListItemsIndex++) {
@@ -38,11 +50,23 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
         }, false);
       }
     },
+
+    /**
+     * clickOnShowAllButton() is event method for showAllButton
+     *
+     * @param {object} showAllButton
+    */
     clickOnShowAllButton : function (showAllButton) {
       showAllButton.addEventListener('click', function () {
         cachedMap.setZoom(1);
       });
     },
+
+    /**
+     * messageOnServerSideEvents() is event method for SSE events
+     *
+     * @param {object} source
+    */
     messageOnServerSideEvents : function (source) {
       var defaults = bobsQuest.defaults,
           utils = bobsQuest.getService('utils'),
@@ -74,6 +98,13 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
         }
       }, false);
     },
+
+    /**
+     * injectFoundersIntoDom() is method for putting data into the responsive table as rows
+     *
+     * @param {array} founders
+     * @param {function} callback
+    */
     injectFoundersIntoDom : function (founders, callback) {
       foundersList.innerHTML = '';
       for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
@@ -81,11 +112,25 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
       }
       callback(founders);
     },
+
+    /**
+     * setLatestUpdate() is a method for setting the latest time of update
+     *
+     * @param {string} updateTime
+    */
     setLatestUpdate : function (updateTime) {
       var latestUpdateTimeText = document.getElementById('latestUpdateTimeText');
       latestUpdateTime = updateTime;
       latestUpdateTimeText.innerHTML = updateTime;
     },
+
+    /**
+     * updateMap() is a method for updating the table and the pins with centering and zooming
+     *
+     * @param {array} founders
+     * @param {float} selectedLat
+     * @param {float} selectedLong
+    */
     updateMap : function (founders, selectedLat, selectedLong) {
       var mapDiv = document.getElementById('map');
       if (_.isUndefined(selectedLat) && _.isUndefined(selectedLong)) {
@@ -97,6 +142,14 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
         cachedMap.setZoom(8);
       }
     },
+
+    /**
+     * createMarkers() is a method for creating pins over the map
+     *
+     * @param {object} map
+     * @param {object} google
+     * @param {array} founders
+    */
     createMarkers : function (map, google, founders) {
       for (var foundersIndex = 0, len = founders.length; foundersIndex < len; foundersIndex++) {
         var marker = new google.maps.Marker({
@@ -106,6 +159,13 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
       }
       this.bindEvents();
     },
+
+    /**
+     * locateOnMarker() is a method for locating the map orientation into the center of the map
+     *
+     * @param {float} lat
+     * @param {float} long
+    */
     locateOnMarker : function (lat, long) {
       var defaults = bobsQuest.defaults;
       this.updateMap(defaults.cachedFounders, lat, long);
