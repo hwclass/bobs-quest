@@ -7,7 +7,7 @@ A practical thing to experiment transactional processes
 * [Express](http://expressjs.com) / as middleware for server-side and client-side
 * [Redis](redis.io) / as key-value hulk
 * [Bolt](https://github.com/ecto/bolt) / as common event system
-* [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
+* [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) / as events sending from server-side
 * [Booklet](https://www.npmjs.com/package/booklet.js) / as client-side view  and functionality controls
 * [Grunt](http://gruntjs.com/) / as paranoid android 
 * [Less](http://lesscss.org/) / as more for CSS
