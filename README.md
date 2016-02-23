@@ -71,5 +71,11 @@ http://localhost:3000/
 * When the event with name 'event_founders_updated' triggered, the server-side file of Express, server.js sends its event to the client side.
 * In the client-side, our listener for Server-Side Events instance catches the data and refresh the list of the founders.
 
+###Possible improvements
+
+* CoucchDB & PouchDB integration for supporting offline data and synchronization
+* Celery for jobs with asynchronism
+* React / Flux / Redux integration for more decoupled code base and management
+
 [twitter](www.twitter.com/hwclass) / [blog](www.hwclass.in)
 
