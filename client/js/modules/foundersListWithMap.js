@@ -27,12 +27,15 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
       var source = bobsQuest.defaults.source;
       //Elements cache
       var foundersListItems = document.getElementsByClassName('geo-item'),
-          showAllButton = document.getElementById('showAll');
+          showAllButton = document.getElementById('showAll'),
+          aboutLink = document.getElementsByClassName('about')[0];
+
       this.messageOnServerSideEvents(source);
       //foundersListItems event decleration for click
       this.clickOnFoundersListItem(foundersListItems);
       //showAllButton event decleration for click
       this.clickOnShowAllButton(showAllButton);
+      this.clickOnAboutLink(aboutLink);
     },
 
     /**
@@ -60,6 +63,27 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
       showAllButton.addEventListener('click', function () {
         cachedMap.setZoom(1);
       });
+    },
+
+    /**
+     * clickOnAboutLink() is event method for binding the method responsible for showing about text
+     *
+     * @param {object} aboutLink
+    */
+    clickOnAboutLink : function (aboutLink) {
+      var self = this;
+      aboutLink.addEventListener('click', function () {
+        self.showAboutText();
+      });
+    },
+
+    /**
+     * showAboutText() is event method for showing about text
+     *
+     * @noparam
+    */
+    showAboutText : function () {
+      console.log('showAboutText');
     },
 
     /**
