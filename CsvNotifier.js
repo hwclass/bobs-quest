@@ -13,10 +13,16 @@ const fs = require("fs"),
 			}
 		}
 
-var redis = require('redis'); 
+var redis = require('redis');
 
 const connectRedis = function (port, host) {
 	return redis.createClient(port, host);
+}
+
+const getValue = function (redisClient, key, callback) {
+  redisClient.get(key, (err, reply) => {
+    callback(JSON.parse(reply));
+  });
 }
 
 const setKey = function (redisClient, key, val) {
@@ -33,6 +39,27 @@ const publish = function (redisClient, eventName, data) {
 	redisClient.publish(eventName, data);
 }
 
+const sendDataOnStart = function () {
+	console.log(111);
+	redisClient = connectRedis(config.redis.port, config.redis.host);
+	redisClient.on('connect', function() {
+		console.log(222);
+		getValue(redisClient, 'founders', (founders) => {
+			console.log(333);
+			cachedFounders = JSON.stringify(founders);
+			console.log('founders : ' + founders);
+			if (!(founders instanceof Array)) {
+				console.log(444);
+				var converterIns = new CsvToJsonConverter({});
+				fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
+				converterIns.on('end_parsed', (jsonArr) => {
+					setKey(redisClient, 'founders', JSON.stringify(jsonArr));
+				})
+			}
+		});
+	});
+}
+
 fs.watchFile(config.data.path + config.data.fileName, (event, fileName) => {
 	var converterIns = new CsvToJsonConverter({});
 	fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
@@ -46,5 +73,8 @@ fs.watchFile(config.data.path + config.data.fileName, (event, fileName) => {
 		publish(redisClient, 'event_founders_updated', JSON.stringify(jsonArr));
 	});
 });
+
+//Set the data on load
+sendDataOnStart();
 
 console.log('Watching the changes in ' + config.data.fileName);
