@@ -77,5 +77,6 @@ http://localhost:3000/
 * CouchDB & PouchDB integration for supporting offline data and synchronization
 * Celery for jobs with asynchronism
 * React / Flux / Redux integration for more decoupled code base and management
+* Using Heroku or any other cloud service to see the demo online
 
 [twitter](https://www.twitter.com/hwclass) / [blog](https://www.hwclass.in)
