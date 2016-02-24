@@ -74,6 +74,7 @@ http://localhost:3000/
 
 ###Possible improvements
 
+* Put a mediator for the whole process into the middle managing the application
 * CouchDB & PouchDB integration for supporting offline data and synchronization
 * Celery for jobs with asynchronism
 * React / Flux / Redux integration for more decoupled code base and management
