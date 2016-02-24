@@ -40,16 +40,11 @@ const publish = function (redisClient, eventName, data) {
 }
 
 const sendDataOnStart = function () {
-	console.log(111);
 	redisClient = connectRedis(config.redis.port, config.redis.host);
 	redisClient.on('connect', function() {
-		console.log(222);
 		getValue(redisClient, 'founders', (founders) => {
-			console.log(333);
 			cachedFounders = JSON.stringify(founders);
-			console.log('founders : ' + founders);
 			if (!(founders instanceof Array)) {
-				console.log(444);
 				var converterIns = new CsvToJsonConverter({});
 				fs.createReadStream(config.data.path + config.data.fileName).pipe(converterIns);
 				converterIns.on('end_parsed', (jsonArr) => {
