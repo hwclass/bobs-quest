@@ -1,25 +1,26 @@
 # bobs-quest
-A practical thing to experiment transactional processes 
+A practical thing to experiment transactional processes
 
 ###Technical Spec
-* [Node.js](www.nodejs.org) / as Javascript hero 
+* [Node.js](www.nodejs.org) / as Javascript hero
 * [Babel (ES6)](babel.io) / as ES6 dialect
 * [Express](http://expressjs.com) / as middleware for server-side and client-side
 * [Redis](redis.io) / as key-value hulk
 * [Bolt](https://github.com/ecto/bolt) / as common event system
 * [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) / as events sending from server-side
 * [Booklet](https://www.npmjs.com/package/booklet.js) / as client-side view  and functionality controls
-* [Grunt](http://gruntjs.com/) / as paranoid android 
+* [Grunt](http://gruntjs.com/) / as paranoid android
 * [Less](http://lesscss.org/) / as more for CSS
 * [Karma](https://karma-runner.github.io/0.13/index.html) / as spectacular goal
 
 ###Setup
 
-####Install 
+####Install
 * [Node.js](https://nodejs.org/en/download/)
 * Babel : ```javascript npm install babel -g``
 * [Redis](http://redis.io/download)
 * Grunt : ```javascript npm install grunt-cli -g``
+* Node Dependencies : ```javascript npm install```
 
 ###Initializing
 
@@ -78,4 +79,3 @@ http://localhost:3000/
 * React / Flux / Redux integration for more decoupled code base and management
 
 [twitter](https://www.twitter.com/hwclass) / [blog](https://www.hwclass.in)
-
