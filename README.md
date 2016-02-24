@@ -67,14 +67,14 @@ http://localhost:3000/
 
 ###Technical Story
 
-* CvsNotifier, keeps eye the sample data (data/sample.csv) on and notifies that there is a change when the file is edited (row adding/removing/updating)
+* CvsNotifier, keeps eye on the sample data (data/sample.csv) and notifies that there is a change when the file is edited (row adding/removing/updating)
 * RedisSubscriber, tracks the traces of Redis instance if the event is fired or not. When new update comes, it makes Bolt informed over its mesh instance.
 * When the event with name 'event_founders_updated' triggered, the server-side file of Express, server.js sends its event to the client side.
 * In the client-side, our listener for Server-Side Events instance catches the data and refresh the list of the founders.
 
 ###Possible improvements
 
-* CoucchDB & PouchDB integration for supporting offline data and synchronization
+* CouchDB & PouchDB integration for supporting offline data and synchronization
 * Celery for jobs with asynchronism
 * React / Flux / Redux integration for more decoupled code base and management
 
