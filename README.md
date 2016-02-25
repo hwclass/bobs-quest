@@ -1,6 +1,8 @@
 # bobs-quest
 A practical thing to experiment transactional processes
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ###Technical Spec
 * [Node.js](www.nodejs.org) / as Javascript hero
 * [Babel (ES6)](babel.io) / as ES6 dialect
