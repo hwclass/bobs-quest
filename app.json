@@ -1,19 +1,7 @@
-me": "Bob's Quest",
-  "description": "A practical thing to experiment transactional processes.",
-  "keywords": [
-    "node.js",
-    "HTML5",
-    "server-sent events"
-  ],
-  "website": "",
+{
+  "name": "Bob's Quest",
+  "description": "A practical thing to experiment transactional processes",
   "repository": "https://github.com/hwclass/bobs-quest",
-  "logo": "",
-  "success_url": "",
-  "scripts": {},
-  "env": {},
-  "image": "heroku/nodejs",
-  "addons": [
-    "redis"
-  ],
-  "buildpacks":[]
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["node", "html5", "server-sent events"]
 }
