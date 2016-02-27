@@ -1,8 +1,10 @@
 # bobs-quest
-A practical thing to experiment transactional processes 
+A practical thing to experiment transactional processes
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ###Technical Spec
-* [Node.js](www.nodejs.org) / as Javascript hero 
+* [Node.js](www.nodejs.org) / as Javascript hero
 * [Babel (ES6)](babel.io) / as ES6 dialect
 * [Express](http://expressjs.com) / as middleware for server-side and client-side
 * [Redis](redis.io) / as key-value hulk
@@ -16,11 +18,12 @@ A practical thing to experiment transactional processes
 
 ###Setup
 
-####Install 
+####Install
 * [Node.js](https://nodejs.org/en/download/)
-* Babel : ```javascript npm install babel -g``
+* Babel : ```npm install babel -g```
 * [Redis](http://redis.io/download)
-* Grunt : ```javascript npm install grunt-cli -g``
+* Grunt : ```npm install grunt-cli -g```
+* Node Dependencies : ```npm install```
 
 ###Initializing
 
@@ -67,16 +70,17 @@ http://localhost:3000/
 
 ###Technical Story
 
-* CvsNotifier, keeps eye the sample data (data/sample.csv) on and notifies that there is a change when the file is edited (row adding/removing/updating)
+* CvsNotifier, keeps eye on the sample data (data/sample.csv) and notifies that there is a change when the file is edited (row adding/removing/updating)
 * RedisSubscriber, tracks the traces of Redis instance if the event is fired or not. When new update comes, it makes Bolt informed over its mesh instance.
 * When the event with name 'event_founders_updated' triggered, the server-side file of Express, server.js sends its event to the client side.
 * In the client-side, our listener for Server-Side Events instance catches the data and refresh the list of the founders.
 
 ###Possible improvements
 
-* CoucchDB & PouchDB integration for supporting offline data and synchronization
+* Put a mediator for the whole process into the middle managing the application
+* CouchDB & PouchDB integration for supporting offline data and synchronization
 * Celery for jobs with asynchronism
 * React / Flux / Redux integration for more decoupled code base and management
+* Using Heroku or any other cloud service to see the demo online
 
 [twitter](https://www.twitter.com/hwclass) / [blog](https://www.hwclass.in)
-
