@@ -34,7 +34,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/founders', (req, res) => {
-  console.log('1.5');
   getValue(redisClient, 'founders', (founders) => {
     console.log(messages.DATA_SENT_TO_THE_CLIENT_SIDE);
     cachedFounders = JSON.stringify(founders);
