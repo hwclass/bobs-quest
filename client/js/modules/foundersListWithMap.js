@@ -25,6 +25,7 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
     bindEvents : function () {
       //config defaults
       var source = bobsQuest.defaults.source;
+
       //Elements cache
       var foundersListItems = document.getElementsByClassName('geo-item'),
           showAllButton = document.getElementById('showAll'),
@@ -92,9 +93,11 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
      * @param {object} source
     */
     messageOnServerSideEvents : function (source) {
+      //setting defaults
       var defaults = bobsQuest.defaults,
           utils = bobsQuest.getService('utils'),
           self = this;
+      //starting to listen to the coming messages from SSE
       source.addEventListener('message', function(e) {
         console.log((new Date()).toLocaleTimeString() + ' : message fetched.');
         founders = JSON.parse(e.data);
@@ -112,10 +115,12 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
         } else { setTimeout(arguments.callee, 200); }
       }, false);
 
+      //this happends when an event-stream opened
       source.addEventListener('open', function(e) {
         console.log((new Date()).toLocaleTimeString() + ' : connection is now arrived.');
       }, false);
 
+      //here occurs when an error happens
       source.addEventListener('error', function(e) {
         if (e.readyState == EventSource.CLOSED) {
           console.log((new Date()).toLocaleTimeString() + ' : connection is now closed.');
