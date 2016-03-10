@@ -32,10 +32,11 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
           aboutLink = document.getElementsByClassName('about')[0];
 
       this.messageOnServerSideEvents(source);
-      //foundersListItems event decleration for click
+      //foundersListItems event decleration for click for founders list items
       this.clickOnFoundersListItem(foundersListItems);
-      //showAllButton event decleration for click
+      //showAllButton event decleration for click for show all button
       this.clickOnShowAllButton(showAllButton);
+      //clickOnAboutLink event decleration for click of about link
       this.clickOnAboutLink(aboutLink);
     },
 
@@ -186,6 +187,7 @@ bobsQuest.register('foundersListWithMap', function (bobsQuest) {
           map: map
         });
       }
+      //binding all events again after refreshing the view and setting the new values
       this.bindEvents();
     },
 

@@ -18,6 +18,12 @@ bobsQuest.createService('utils', function () {
     },
     getMapLoadingStatus : function () {
       return !!mapLoaded;
+    },
+    getConfig : function () {
+      return {
+        lay : 44.540,
+        lng : -78.546
+      }
     }
   }
 });
