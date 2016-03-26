@@ -5,9 +5,9 @@ A practical thing to experiment transactional processes with Node.js and Redis P
 
 ###Technical Spec
 * [Node.js](www.nodejs.org) / as Javascript hero
-* [Babel (ES6)](babel.io) / as ES6 dialect
+* [Babel (ES6)](http://babel.io) / as ES6 dialect
 * [Express](http://expressjs.com) / as middleware for server-side and client-side
-* [Redis](redis.io) / as key-value hulk
+* [Redis](http://redis.io) / as key-value hulk
 * [Bolt](https://github.com/ecto/bolt) / as common event system
 * [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) / as events sending from server-side
 * [Booklet](https://www.npmjs.com/package/booklet.js) / as client-side view  and functionality controls
