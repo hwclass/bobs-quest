@@ -1,5 +1,5 @@
 # bobs-quest
-A practical thing to experiment transactional processes
+A practical thing to experiment transactional processes with Node.js and Redis Pub/Sub Events.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
