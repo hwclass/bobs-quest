@@ -4,7 +4,7 @@
   "description": "A practical thing to experiment transactional processes",
   "main": "CsvNotifier.js",
   "scripts": {
-    "start-redis-server": "redis-server /usr/local/etc/redis.conf",
+    "start-redis": "redis-server /usr/local/etc/redis.conf",
     "start-csv-notifier": "node ./CsvNotifier.js",
     "start-redis-subscriber": "node ./RedisSubscriber.js",
     "start-server": "node ./server.js"

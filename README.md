@@ -30,7 +30,7 @@ A practical thing to experiment transactional processes
 * Start Redis Server
 
 ```javascript
-npm run start-redis-server
+npm run start-redis
 ```
 
 * Start our CSV file watcher for changes
@@ -51,7 +51,7 @@ npm run start-redis-subscriber
 npm run start-server
 ```
 
-* Open the browser and hit localhost
+* Open the browser and hit the following:
 
 ```javascript
 http://localhost:3000/
