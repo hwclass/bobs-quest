@@ -16,7 +16,7 @@ A practical thing to experiment transactional processes
 * [Less](http://lesscss.org/) / as more for CSS
 * [Karma](https://karma-runner.github.io/0.13/index.html) / as spectacular goal
 
-<img src="http://tinypic.com/r/idy4g9/9" border="0">
+<img src="http://tinypic.com/r/idy4g9/9" style="width: 100%;" border="0">
 
 ###Setup
 
