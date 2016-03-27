@@ -9,7 +9,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      foundersList : [],
+      foundersList : [
+        {id: 'dGFraW5hcmRp', name : 'Larry Page & Sergey Brin', company : 'Google'},
+        {id: 'cGVzc290dG8=', name : 'Steve Jobs & Steve Wozniak', company : 'Apple'},
+        {id: 'Y29udGU=', name : 'Bill Gates', company : 'Microsoft'}
+      ],
       selectedFounder : null
     }
   }
@@ -18,7 +22,7 @@ class App extends Component {
     return (
       <div>
         <Map />
-        <FoundersList />
+        <FoundersList foundersList={this.state.foundersList}/>
       </div>
     )
   }
