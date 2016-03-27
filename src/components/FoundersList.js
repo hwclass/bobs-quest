@@ -1,9 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-const FoundersList () => {
-  render () {
-    return (<div>FoundersList</div>)
-  }
+const FoundersList = () => {
+  return (<div>FoundersList</div>)
 }
 
 export default FoundersList;

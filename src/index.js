@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-imort ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
+
+import Map from './components/Map'
+import FoundersList from './components/FoundersList'
 
 class App extends Component {
 
@@ -13,8 +16,10 @@ class App extends Component {
 
   render () {
     return (
-      <Map />
-      <FoundersList />
+      <div>
+        <Map />
+        <FoundersList />
+      </div>
     )
   }
 
