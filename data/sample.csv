@@ -1,4 +1,5 @@
-Id,Company Name,Founder,City,Country,Postal Code, Street,Photo,Home Page,Garage Latitude,Garage Longitude
+Id,CompanyName,Founder,City,Country,PostalCode, Street,Photo,HomePage,GarageLatitude,GarageLongitude
 1,Google,Larry Page & Sergey Brin,Mountain View,USA,CA 94043,1600 Amphitheatre Pkwy,http://www.incomediary.com/wp-content/uploads/2012/02/larry-page-sergey-brin.jpg,http://google.com,37.457674,-122.163452
 2,Apple,Steve Jobs & Steve Wozniak,Cupertino,USA,CA 95014,1 Infinite Loop,http://i.dailymail.co.uk/i/pix/2013/02/08/article-2275512-172E13BB000005DC-732_634x505.jpg,http://apple.com,37.3403188,-122.0581469
 3,Microsoft,Bill Gates,Redmond,USA,WA 98052-7329,One Microsoft Way,http://images.dailytech.com/nimage/bill-gates-desk-picture.jpg,http://microsoft.com,37.472189,-122.190191
+4,Ev,Barış Güler,İstanbul,TR,WA 34540,Bağcılar,https://pbs.twimg.com/profile_images/564347684136701952/it2qZsOR.jpeg,http://hwclass.in,41.038660,28.829092

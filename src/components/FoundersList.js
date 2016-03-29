@@ -10,7 +10,7 @@ class FoundersList extends Component {
   render () {
 
     const founders = this.props.foundersList.map((founder) => {
-      return <FoundersListItem key={founder.id} founder={founder} />
+      return <FoundersListItem key={founder.Id} founder={founder} />
     })
 
     return (

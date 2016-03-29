@@ -2,7 +2,7 @@ import React from 'react';
 
 const FoundersListItem = ({founder}) => {
   return (
-    <li>{founder.id}, {founder.name}, {founder.company}</li>
+    <li>{founder.Id}, {founder.CompanyName}, {founder.Founder}</li>
   )
 }
 

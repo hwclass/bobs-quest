@@ -13,9 +13,10 @@ class App extends Component {
       selectedFounder : null
     }
     const eventSource = new EventSource('/founders');
-    eventSource.addEventListener('message', (data) => {
+    eventSource.addEventListener('message', (response) => {
+      console.dir(response);
       this.setState({
-        foundersList : data
+        foundersList : JSON.parse(response.data)
       });
     });
   }
