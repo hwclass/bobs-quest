@@ -9,13 +9,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      foundersList : [
-        {id: 'dGFraW5hcmRp', name : 'Larry Page & Sergey Brin', company : 'Google'},
-        {id: 'cGVzc290dG8=', name : 'Steve Jobs & Steve Wozniak', company : 'Apple'},
-        {id: 'Y29udGU=', name : 'Bill Gates', company : 'Microsoft'}
-      ],
+      foundersList : [],
       selectedFounder : null
     }
+    const eventSource = new EventSource('/founders');
+    eventSource.addEventListener('message', (data) => {
+      this.setState({
+        foundersList : data
+      });
+    });
   }
 
   render () {
