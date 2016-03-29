@@ -8,7 +8,7 @@
     "start-csv-notifier": "node ./CsvNotifier.js",
     "start-redis-subscriber": "node ./RedisSubscriber.js",
     "start-server": "node ./server.js",
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },
