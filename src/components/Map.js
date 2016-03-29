@@ -1,7 +1,22 @@
 import React, {Component} from 'react';
+import {GoogleMapLoader, GoogleMap, Marker} from "react-google-maps";
 
-const Map = () => {
-  return (<div>Map</div>)
+class Map extends Component {
+  
+  constructor (props) {
+    super(props)
+  }
+
+  componentDidMount () {
+    
+  }
+
+  render () {
+    return (
+      <div>Map</div>
+    )
+  }
+
 }
 
 export default Map;
