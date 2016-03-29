@@ -10,7 +10,8 @@ A practical thing to experiment transactional processes with Node.js and Redis P
 * [Redis](http://redis.io) / as key-value hulk
 * [Bolt](https://github.com/ecto/bolt) / as common event system
 * [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) / as events sending from server-side
-* [Booklet](https://www.npmjs.com/package/booklet.js) / as client-side view  and functionality controls
+* [React](https://facebook.github.io/react/) / for client-side view, functionality and state control
+* [Webpack](https://webpack.github.io/) / as development bundler
 * [Google Maps API](https://developers.google.com/maps/documentation/javascript/) / as map provider
 * [Grunt](http://gruntjs.com/) / as paranoid android 
 * [Less](http://lesscss.org/) / as more for CSS
