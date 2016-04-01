@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import { default as update } from "react-addons-update";
 import {GoogleMapLoader, GoogleMap, Marker} from "react-google-maps";
 import { triggerEvent } from "react-google-maps/lib/utils";
 import { default as canUseDOM } from "can-use-dom";
 import { default as _ } from "lodash";
+import Header from './components/Header';
+import Info from './components/Info';
 import Map from './components/Map';
 import FoundersList from './components/FoundersList';
 
@@ -16,21 +19,39 @@ class App extends Component {
       selectedFounder : null,
       markers: [{
         position: {
-          lat: 25.0112183,
-          lng: 121.52067570000001,
+          lat : 0.0,
+          lng : 0.0
         },
-        key: `Taiwan`,
+        key: this.getRandomKey(),
         defaultAnimation: 2,
+        zoom: 2
       }]
     }
+  
     const eventSource = new EventSource('/founders');
+    
     eventSource.addEventListener('message', (response) => {
-      console.dir(response);
-      this.setState({
-        foundersList : JSON.parse(response.data)
+      const foundersList = JSON.parse(response.data);
+      const markers = foundersList.map((founder) => {
+        return { position : { lat: founder.GarageLatitude, lng: founder.GarageLongitude }, key: this.getRandomKey(), defaultAnimation: 2, zoom: 2 }
       });
+      if (this.isDifferentArrayOfObjects(this.state.markers, markers)) {
+        this.setState({
+          foundersList : JSON.parse(response.data),
+          markers : markers
+        });
+      }
+      this.handleWindowResize = _.throttle(this.handleWindowResize, 500);
     });
-    this.handleWindowResize = _.throttle(this.handleWindowResize, 500);
+
+  }
+
+  getRandomKey () {
+    return Math.random(Date.now() * 100);
+  }
+
+  isDifferentArrayOfObjects (firstArr, secondArray) {
+    return (!_.isEmpty(_.difference(firstArr, secondArray)));
   }
 
   handleMapClick(event) {
@@ -40,7 +61,7 @@ class App extends Component {
         {
           position: event.latLng,
           defaultAnimation: 2,
-          key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
+          key: this.getRandomKey()
         },
       ],
     });
@@ -48,18 +69,13 @@ class App extends Component {
 
     if (markers.length === 3) {
       this.props.toast(
-        `Right click on the marker to remove it`,
-        `Also check the code!`
+        'Right click on the marker to remove it',
+        'Also check the code!'
       );
     }
   }
 
   handleMarkerRightClick(index, event) {
-    /*
-    * All you modify is data, and the view is driven by data.
-    * This is so called data-driven-development. (And yes, it's now in
-    * web front end and even with google maps API.)
-    */
     let { markers } = this.state;
     markers = update(markers, {
      $splice: [
@@ -70,8 +86,22 @@ class App extends Component {
   }
 
   handleWindowResize() {
-    console.log(`handleWindowResize`, this._googleMapComponent);
-    triggerEvent(this._googleMapComponent, `resize`);
+    console.log('handleWindowResize', this._googleMapComponent);
+    triggerEvent(this._googleMapComponent, 'resize');
+  }
+
+  componentWillMount () {
+    this.setState({
+      markers: [{
+        position: {
+          lat : 0.0,
+          lng : 0.0
+        },
+        key: this.getRandomKey(),
+        defaultAnimation: 2,
+        zoom: 2
+      }]
+    })
   }
 
   componentDidMount () {
@@ -84,6 +114,8 @@ class App extends Component {
   render () {
     return (
       <div>
+        <Header />
+        <Info />
         <section style={{height: "400px", width : "100%"}}>
           <GoogleMapLoader
             containerElement={
@@ -92,13 +124,15 @@ class App extends Component {
             googleMapElement={
               <GoogleMap
                 ref={(map) => console.log(map)}
-                defaultZoom={3}
-                defaultCenter={{lat: -25.363882, lng: 131.044922}}
+                defaultZoom={2}
+                defaultCenter={{lat : 0.0, lng : 0.0}}
                 onClick={this.handleMapClick}>
                 {this.state.markers.map((marker, index) => {
                   return (
                     <Marker
-                      {...marker}
+                      position={marker.position}
+                      key={marker.key}
+                      ref={(marker) => console.log(marker)}
                       onRightclick={this.handleMarkerRightClick.bind(this, index)} />
                   );
                 })}
