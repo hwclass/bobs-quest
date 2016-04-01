@@ -1,24 +1,22 @@
-import React, {Component} from 'react';
+import React from 'react';
 import FoundersListItem from './FoundersListItem';
 
-class FoundersList extends Component {
-  
-  constructor (props) {
-    super(props);
-  }
+const FoundersList = (props) => {
 
-  render () {
-
-    const founders = this.props.foundersList.map((founder) => {
-      return <FoundersListItem key={founder.Id} founder={founder} />
-    })
-
+  const founders = props.foundersList.map((founder) => {
     return (
-      <ul>
-        {founders}
-      </ul>
+      <FoundersListItem 
+        key={Math.random(Date.now() * 100)} 
+        founder={founder} 
+        onFoundersListItemClick={props.onFoundersListItemClick}/>
     )
-  }
+  });
+
+  return (
+    <ul>
+      {founders}
+    </ul>
+  )
 
 }
 

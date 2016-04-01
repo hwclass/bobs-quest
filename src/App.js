@@ -17,6 +17,7 @@ class App extends Component {
     this.state = {
       foundersList : [],
       selectedFounder : null,
+      center : {lat : 0.0, lng : 0.0},
       markers: [{
         position: {
           lat : 0.0,
@@ -86,12 +87,21 @@ class App extends Component {
   }
 
   handleWindowResize() {
-    console.log('handleWindowResize', this._googleMapComponent);
+    //console.log('handleWindowResize', this._googleMapComponent);
     triggerEvent(this._googleMapComponent, 'resize');
+  }
+
+  onFoundersListItemClick (selectedFounder) {
+    console.dir(selectedFounder);
+    this.setState({
+      center : {lat: selectedFounder.GarageLatitude, lng:  selectedFounder.GarageLongitude }
+    })
   }
 
   componentWillMount () {
     this.setState({
+      foundersList : [],
+      selectedFounder : null,
       markers: [{
         position: {
           lat : 0.0,
@@ -123,16 +133,15 @@ class App extends Component {
             }
             googleMapElement={
               <GoogleMap
-                ref={(map) => console.log(map)}
                 defaultZoom={2}
-                defaultCenter={{lat : 0.0, lng : 0.0}}
+                defaultCenter={this.state.center}
+                center={this.state.center}
                 onClick={this.handleMapClick}>
                 {this.state.markers.map((marker, index) => {
                   return (
                     <Marker
                       position={marker.position}
                       key={marker.key}
-                      ref={(marker) => console.log(marker)}
                       onRightclick={this.handleMarkerRightClick.bind(this, index)} />
                   );
                 })}
@@ -140,7 +149,9 @@ class App extends Component {
             }
           />
         </section>
-        <FoundersList foundersList={this.state.foundersList} />
+        <FoundersList 
+          onFoundersListItemClick={selectedFounder => this.onFoundersListItemClick(selectedFounder)}
+          foundersList={this.state.foundersList}/>
       </div>
     )
   }
