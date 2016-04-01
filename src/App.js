@@ -25,8 +25,10 @@ class App extends Component {
         },
         key: this.getRandomKey(),
         defaultAnimation: 2,
-        zoom: 2
-      }]
+        zoom: 1
+      }],
+      zoom: 1,
+      latestUpdate : (new Date()).toLocaleTimeString()
     }
   
     const eventSource = new EventSource('/founders');
@@ -34,12 +36,13 @@ class App extends Component {
     eventSource.addEventListener('message', (response) => {
       const foundersList = JSON.parse(response.data);
       const markers = foundersList.map((founder) => {
-        return { position : { lat: founder.GarageLatitude, lng: founder.GarageLongitude }, key: this.getRandomKey(), defaultAnimation: 2, zoom: 2 }
+        return { position : { lat: founder.GarageLatitude, lng: founder.GarageLongitude }, key: this.getRandomKey(), defaultAnimation: 2, zoom: 1 }
       });
       if (this.isDifferentArrayOfObjects(this.state.markers, markers)) {
         this.setState({
           foundersList : JSON.parse(response.data),
-          markers : markers
+          markers : markers,
+          latestUpdate : (new Date()).toLocaleTimeString()
         });
       }
       this.handleWindowResize = _.throttle(this.handleWindowResize, 500);
@@ -56,7 +59,7 @@ class App extends Component {
   }
 
   handleMapClick(event) {
-    let { markers } = this.state;
+    let { markers } = this.state.markers;
     markers = update(markers, {
       $push: [
         {
@@ -87,15 +90,21 @@ class App extends Component {
   }
 
   handleWindowResize() {
-    //console.log('handleWindowResize', this._googleMapComponent);
     triggerEvent(this._googleMapComponent, 'resize');
   }
 
   onFoundersListItemClick (selectedFounder) {
-    console.dir(selectedFounder);
     this.setState({
+      selectedFounder,
       center : {lat: selectedFounder.GarageLatitude, lng:  selectedFounder.GarageLongitude }
     })
+  }
+
+  onShowAllButtonClick () {
+    this.setState({
+      zoom : 1
+    });
+    console.log('onShowAllButtonClick');
   }
 
   componentWillMount () {
@@ -109,7 +118,7 @@ class App extends Component {
         },
         key: this.getRandomKey(),
         defaultAnimation: 2,
-        zoom: 2
+        zoom: 1
       }]
     })
   }
@@ -133,7 +142,8 @@ class App extends Component {
             }
             googleMapElement={
               <GoogleMap
-                defaultZoom={2}
+                defaultZoom={this.state.zoom}
+                zoom={this.state.zoom}
                 defaultCenter={this.state.center}
                 center={this.state.center}
                 onClick={this.handleMapClick}>
@@ -149,9 +159,11 @@ class App extends Component {
             }
           />
         </section>
-        <FoundersList 
+        <FoundersList
           onFoundersListItemClick={selectedFounder => this.onFoundersListItemClick(selectedFounder)}
-          foundersList={this.state.foundersList}/>
+          foundersList={this.state.foundersList}
+          latestUpdate={this.state.latestUpdate}
+          onShowAllButtonClick={() => this.onShowAllButtonClick}/>
       </div>
     )
   }
