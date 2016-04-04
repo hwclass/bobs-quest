@@ -1,4 +1,5 @@
 import React from 'react';
+import testStyle from './../../client/css/test.css';
 
 const FoundersListItem = ({founder, onFoundersListItemClick}) => {
   return (
@@ -13,10 +14,10 @@ const FoundersListItem = ({founder, onFoundersListItemClick}) => {
       <td>{founder.City}</td>
       <td>{founder.Street}</td>
       <td>{founder.HomePage}</td>
-      <td>{founder.GarageLatitude}</td>
+      <td>{founder.GarageLatitude}</td> 
       <td>{founder.GarageLongitude}</td>
     </tr>
   )
 }
-
+ 
 export default FoundersListItem;

@@ -28,6 +28,7 @@ class App extends Component {
         zoom: 1
       }],
       zoom: 1,
+      detailedZoom : 8,
       latestUpdate : (new Date()).toLocaleTimeString()
     }
   

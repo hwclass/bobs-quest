@@ -44,7 +44,7 @@ const FoundersList = (props) => {
               </tr>
               <tr>
                 <td colSpan="10" className="text-center">
-                  <span>Latest Update : </span>
+                  <span>Latest Update: </span>
                   <span>{props.latestUpdate}</span>
                 </td>
               </tr>

@@ -35,3 +35,4 @@ node_modules
 ./client/js/main.js
 bundle.js
 npm-debug.log
+bower_components
