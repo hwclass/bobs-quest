@@ -3,7 +3,7 @@ A practical thing to experiment transactional processes with Node.js and Redis P
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-###Technical Spec
+### Technical Spec
 * [Node.js](www.nodejs.org) / as Javascript hero
 * [Babel (ES6)](http://babel.io) / as ES6 dialect
 * [Express](http://expressjs.com) / as middleware for server-side and client-side
@@ -19,16 +19,22 @@ A practical thing to experiment transactional processes with Node.js and Redis P
 
 <img src="http://oi65.tinypic.com/idy4g9.jpg" style="width: 100%;" border="0">
 
-###Setup
+### Technical Story
 
-####Install
+* CvsNotifier, keeps eye on the sample data (data/sample.csv) and notifies that there is a change when the file is edited (row adding/removing/updating)
+* RedisSubscriber, tracks the traces of Redis instance if the event is fired or not. When new update comes, it makes Bolt informed over its mesh instance.
+* When the event with name 'event_founders_updated' triggered, the server-side file of Express, server.js sends its event to the client side.
+* In the client-side, our listener for Server-Side Events instance catches the data and refresh the list of the founders.
+
+### Setup
+
 * [Node.js](https://nodejs.org/en/download/)
 * Babel : ```npm install babel -g```
 * [Redis](http://redis.io/download)
 * Grunt : ```npm install grunt-cli -g```
 * Node Dependencies : ```npm install```
 
-###Initializing
+### Initializing
 
 * Start Redis Server
 
@@ -60,7 +66,7 @@ npm run start-server
 http://localhost:3000/
 ```
 
-###Usage
+### Usage
 
 * See the client-side comes onto the browser screen
 * Add a new row into our sample.csv file
@@ -71,19 +77,11 @@ http://localhost:3000/
 * Keep the changes in the client-side
 * Enjoy :)
 
-###Technical Story
-
-* CvsNotifier, keeps eye on the sample data (data/sample.csv) and notifies that there is a change when the file is edited (row adding/removing/updating)
-* RedisSubscriber, tracks the traces of Redis instance if the event is fired or not. When new update comes, it makes Bolt informed over its mesh instance.
-* When the event with name 'event_founders_updated' triggered, the server-side file of Express, server.js sends its event to the client side.
-* In the client-side, our listener for Server-Side Events instance catches the data and refresh the list of the founders.
-
-###Possible improvements
+### Possible improvements
 
 * Put a mediator for the whole process into the middle managing the application
 * CouchDB & PouchDB integration for supporting offline data and synchronization
-* Celery for jobs with asynchronism
-[-] React / Flux / Redux integration for more decoupled code base and management
-* Using Heroku or any other cloud service to see the demo online
+* Celery for jobs
+[-] React / Flux / Redux integration for more decoupled store management in the client
 
-[twitter](https://www.twitter.com/hwclass) / [blog](https://www.hwclass.in)
+[twitter](https://www.twitter.com/hwclass)
